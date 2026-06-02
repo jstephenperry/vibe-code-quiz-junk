@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golf Ball Fitter — Find Your Ideal Ball</title>
+  <meta name="description" content="Answer a few questions about your golf swing and get matched to your ideal golf ball, based on what the manufacturers say." />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>⛳ Golf Ball Fitter</h1>
+      <p class="tagline">Answer a few questions about your swing and we'll match you to your ideal ball — based on what the manufacturers say about theirs.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Quiz -->
+    <section id="quiz-screen" class="card">
+      <div class="progress">
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+        <span id="progress-label" class="progress-label"></span>
+      </div>
+      <div id="question-container"></div>
+      <div class="quiz-nav">
+        <button id="back-btn" class="btn btn-ghost" type="button">← Back</button>
+        <button id="next-btn" class="btn btn-primary" type="button" disabled>Next →</button>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section id="results-screen" class="card hidden">
+      <h2 class="results-title">Your top matches</h2>
+      <p id="results-summary" class="results-summary"></p>
+      <div id="results-container"></div>
+      <div class="results-actions">
+        <button id="restart-btn" class="btn btn-primary" type="button">Start over</button>
+        <button id="details-toggle" class="btn btn-ghost" type="button">Show all balls ranked</button>
+      </div>
+      <div id="full-ranking" class="full-ranking hidden"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Recommendations are generated from manufacturers' stated ball characteristics
+        (compression, cover, spin, flight, feel and fit windows). Data is approximate and
+        for guidance only — confirm with a real fitting. See
+        <a href="data/SOURCES.md">data sources</a>.</p>
+    </div>
+  </footer>
+
+  <!-- Data (generated from data/golf_balls.csv) then app logic -->
+  <script src="data/golf_balls.js"></script>
+  <script src="assets/quiz.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

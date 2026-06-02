@@ -1,0 +1,41 @@
+brand,model,year,pieces,cover,compression,driver_spin,greenside_spin,launch,feel,swing_speed_min_mph,swing_speed_max_mph,price_usd,price_tier,category,url
+Titleist,Pro V1,2025,3,Urethane,90,mid,high,mid,mid,90,120,55,premium,tour,https://www.titleist.com/product/pro-v1/
+Titleist,Pro V1x,2025,4,Urethane,100,high,high,high,firm,95,125,55,premium,tour,https://www.titleist.com/product/pro-v1x/
+Titleist,Pro V1x Left Dash,2024,4,Urethane,102,low,high,mid,firm,100,130,55,premium,tour,https://www.titleist.com/product/pro-v1x-left-dash/
+Titleist,AVX,2024,3,Urethane,82,low,mid,low,soft,85,115,50,premium,tour,https://www.titleist.com/product/avx/
+Titleist,Tour Speed,2024,3,Urethane,85,mid,mid,mid,mid,90,110,40,mid,tour,https://www.titleist.com/product/tour-speed/
+Titleist,Tour Soft,2024,2,Ionomer,65,mid,mid,mid,soft,75,100,35,mid,soft-distance,https://www.titleist.com/product/tour-soft/
+Titleist,Velocity,2024,2,Ionomer,65,low,low,high,firm,80,110,30,mid,distance,https://www.titleist.com/product/velocity/
+Titleist,TruFeel,2024,2,Ionomer,55,low,low,low,soft,70,100,25,value,soft-distance,https://www.titleist.com/product/trufeel/
+TaylorMade,TP5,2024,5,Urethane,85,mid,high,mid,mid,90,120,50,premium,tour,https://www.taylormadegolf.com/TP5-Golf-Balls/
+TaylorMade,TP5x,2024,5,Urethane,97,low,high,high,firm,100,130,50,premium,tour,https://www.taylormadegolf.com/TP5x-Golf-Balls/
+TaylorMade,Tour Response,2024,3,Urethane,70,mid,high,mid,soft,85,110,40,mid,tour,https://www.taylormadegolf.com/Tour-Response-Golf-Balls/
+TaylorMade,Soft Response,2024,3,Ionomer,35,low,low,mid,soft,70,95,30,value,soft-distance,https://www.taylormadegolf.com/Soft-Response-Golf-Balls/
+TaylorMade,Distance+,2024,2,Ionomer,77,low,low,high,firm,80,110,20,value,distance,https://www.taylormadegolf.com/Distance-Golf-Balls/
+Callaway,Chrome Tour,2024,4,Urethane,85,mid,high,mid,mid,95,120,55,premium,tour,https://www.callawaygolf.com/golf-balls/chrome-tour/
+Callaway,Chrome Tour X,2024,4,Urethane,90,low,high,high,firm,100,130,55,premium,tour,https://www.callawaygolf.com/golf-balls/chrome-tour-x/
+Callaway,Chrome Soft,2024,3,Urethane,75,mid,high,mid,soft,85,110,50,premium,tour,https://www.callawaygolf.com/golf-balls/chrome-soft/
+Callaway,Chrome Soft X LS,2024,4,Urethane,90,low,high,low,firm,105,130,50,premium,tour,https://www.callawaygolf.com/golf-balls/chrome-soft-x-ls/
+Callaway,Supersoft,2023,3,Hybrid Ionomer,38,low,low,high,soft,70,95,25,value,soft-distance,https://www.callawaygolf.com/golf-balls/supersoft/
+Callaway,ERC Soft,2023,3,Hybrid Ionomer,60,low,mid,high,soft,80,105,35,mid,soft-distance,https://www.callawaygolf.com/golf-balls/erc-soft/
+Callaway,Warbird,2023,2,Ionomer,70,low,low,high,firm,80,110,20,value,distance,https://www.callawaygolf.com/golf-balls/warbird/
+Bridgestone,Tour B X,2024,3,Urethane,85,low,high,mid,firm,105,130,50,premium,tour,https://www.bridgestonegolf.com/en-us/balls/tour-series/tour-bx
+Bridgestone,Tour B XS,2024,3,Urethane,80,mid,high,mid,soft,105,130,50,premium,tour,https://www.bridgestonegolf.com/en-us/balls/tour-series/tour-bxs
+Bridgestone,Tour B RX,2024,3,Urethane,66,low,mid,mid,mid,70,105,45,premium,tour,https://www.bridgestonegolf.com/en-us/balls/tour-series/tour-brx
+Bridgestone,Tour B RXS,2024,3,Urethane,65,mid,high,mid,soft,70,105,45,premium,tour,https://www.bridgestonegolf.com/en-us/balls/tour-series/tour-brxs
+Bridgestone,e12 Contact,2023,3,Ionomer,70,low,mid,high,mid,80,105,30,mid,distance,https://www.bridgestonegolf.com/en-us/balls/e-series/e12-contact
+Bridgestone,e6,2023,2,Ionomer,50,low,low,mid,soft,70,95,25,value,soft-distance,https://www.bridgestonegolf.com/en-us/balls/e-series/e6
+Srixon,Z-Star,2025,3,Urethane,90,mid,high,mid,mid,90,115,45,premium,tour,https://www.srixon.com/en-us/balls/z-star
+Srixon,Z-Star XV,2025,4,Urethane,102,low,high,high,firm,100,130,45,premium,tour,https://www.srixon.com/en-us/balls/z-star-xv
+Srixon,Z-Star Diamond,2025,3,Urethane,100,low,high,mid,mid,100,125,45,premium,tour,https://www.srixon.com/en-us/balls/z-star-diamond
+Srixon,Q-Star Tour,2024,3,Urethane,75,mid,mid,mid,soft,80,105,35,mid,tour,https://www.srixon.com/en-us/balls/q-star-tour
+Srixon,Soft Feel,2023,2,Ionomer,60,low,low,mid,soft,70,100,25,value,soft-distance,https://www.srixon.com/en-us/balls/soft-feel
+Wilson,Staff Model,2024,4,Urethane,100,mid,high,mid,firm,100,125,45,premium,tour,https://www.wilson.com/en-us/golf/balls/staff-model
+Wilson,Staff Model R,2024,4,Urethane,95,low,high,low,mid,105,130,45,premium,tour,https://www.wilson.com/en-us/golf/balls/staff-model-r
+Wilson,Duo Soft,2024,2,Ionomer,35,low,low,mid,soft,65,95,22,value,soft-distance,https://www.wilson.com/en-us/golf/balls/duo-soft
+Vice,Pro Plus,2024,4,Urethane,90,low,high,high,firm,100,125,35,mid,tour,https://www.vicegolf.com/us/golf-balls/vice-pro-plus
+Vice,Pro,2024,3,Urethane,80,mid,high,mid,mid,85,110,30,mid,tour,https://www.vicegolf.com/us/golf-balls/vice-pro
+Vice,Pro Soft,2024,3,Urethane,45,low,mid,mid,soft,70,95,30,mid,tour,https://www.vicegolf.com/us/golf-balls/vice-pro-soft
+Kirkland,Signature 3-Piece,2024,3,Urethane,70,mid,mid,mid,soft,80,110,20,value,tour,https://www.costco.com/kirkland-signature-golf-balls.html
+Snell,MTB-X,2023,3,Urethane,95,low,high,mid,firm,100,125,33,mid,tour,https://www.snellgolf.com/products/mtb-x
+Snell,MTB Black,2023,3,Urethane,80,mid,high,mid,mid,85,110,33,mid,tour,https://www.snellgolf.com/products/mtb-black
