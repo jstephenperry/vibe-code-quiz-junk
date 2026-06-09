@@ -1,66 +1,50 @@
-# ⛳ Golf Ball Fitter
+# 🎯 Quiz Hub
 
-A quiz-style web app that matches a golfer to their **ideal golf ball** based on a few
-questions about their swing — using the performance characteristics the **manufacturers
-themselves** publish about their balls.
+A static, GitHub Pages–hosted collection of **quiz-style single-page apps**. Each quiz
+matches you to an "ideal pick" based on a few quick answers. The root page is a hub that
+lists every quiz; each quiz is a self-contained SPA in its own folder.
 
-Answer six questions (swing speed, skill, priority, flight, feel, budget) and the app
-ranks current golf balls from Titleist, TaylorMade, Callaway, Bridgestone, Srixon, Wilson,
-Vice, Snell and Kirkland, with a match score and a plain-English explanation of *why* each
-ball fits you.
+**Live site:** https://jstephenperry.github.io/vibe-code-quiz-junk/
 
-## How it works
+## Quizzes
+
+| Quiz | Folder | What it does |
+| --- | --- | --- |
+| ⛳ Golf Ball Fitter | [`golf-ball-fitter/`](golf-ball-fitter/) | Matches you to your ideal golf ball from 40 balls across 9 brands, based on the manufacturers' own stated ball characteristics. |
+
+## Repo layout
 
 ```
-data/golf_balls.csv   ← canonical, aggregated manufacturer data (the deliverable dataset)
-        │  python3 scripts/build_data.py
-        ▼
-data/golf_balls.js     ← generated; lets the app run straight from disk (no server needed)
-        │
-index.html + assets/   ← the quiz UI and the scoring engine
+index.html            ← hub landing page (lists all quizzes)
+assets/
+  hub.css, hub.js     ← hub styling + rendering
+  quizzes.js          ← registry of quizzes (add an entry to list a new one)
+golf-ball-fitter/     ← first quiz SPA (self-contained: html, css, js, data)
+.github/workflows/
+  deploy-pages.yml    ← deploys the whole repo to GitHub Pages on push to main
+.nojekyll             ← serve files as-is (no Jekyll processing)
 ```
 
-The matching logic in `assets/quiz.js` mirrors how manufacturers fit golfers to balls:
+## Adding a new quiz
 
-- **Swing speed → fit window + compression.** Bridgestone fits explicitly by driver swing
-  speed (Tour B X/XS for >105 mph, RX/RXS for <105 mph); general industry guidance ties
-  compression to speed. Both are encoded.
-- **Cover, spin, flight & feel → fit by characteristics.** Mirrors Titleist's approach of
-  fitting on feel, trajectory and greenside spin rather than compression alone.
-- **Skill & budget** shape which *category* of ball is sensible (tour vs. distance vs.
-  soft, premium vs. value).
+1. Create a new top-level folder (e.g. `coffee-brew-finder/`) containing a self-contained
+   SPA with its own `index.html`.
+2. Add an entry to `assets/quizzes.js` with its `title`, `emoji`, `path`, `blurb`, `tags`.
+3. Commit — the hub will list it automatically, and the deploy workflow publishes it.
 
-Each ball gets a weighted 0–100 match score; the top three are shown with reasons, and a
-full ranked table of all balls is available.
+## Running locally
 
-See [`data/SOURCES.md`](data/SOURCES.md) for the dataset columns, methodology, and the
-manufacturer/third-party sources behind the numbers.
-
-## Running it
-
-It's a static site — no build tooling or dependencies.
-
-**Option A — just open it:** open `index.html` in your browser. (The app loads
-`data/golf_balls.js`, so it works directly from disk.)
-
-**Option B — serve it locally:**
+It's a static site with no build tooling.
 
 ```bash
 python3 -m http.server 8000
 # then visit http://localhost:8000
 ```
 
-## Updating the data
+Or open `index.html` directly in a browser.
 
-`data/golf_balls.csv` is the single source of truth. After editing it, regenerate the JS
-the app reads:
+## Deployment
 
-```bash
-python3 scripts/build_data.py
-```
-
-## Disclaimer
-
-Recommendations are educational and approximate. Compression and spin figures are largely
-third-party measured (most manufacturers don't publish them). For a real recommendation,
-use a manufacturer's fitting tool or get fit in person.
+The site deploys via GitHub Actions (`.github/workflows/deploy-pages.yml`) on every push to
+`main`. **One-time setup:** in the repo, go to **Settings → Pages → Build and deployment →
+Source = "GitHub Actions"**. After that, every push to `main` publishes automatically.

@@ -31,6 +31,8 @@ body {
   color: #fff;
   padding: 2.4rem 0 2rem;
 }
+.back-link { color: #d7f0e0; text-decoration: none; font-size: 0.85rem; opacity: 0.9; display: inline-block; margin-bottom: 0.6rem; }
+.back-link:hover { text-decoration: underline; }
 .site-header h1 { margin: 0 0 0.3rem; font-size: 2rem; }
 .tagline { margin: 0; opacity: 0.92; max-width: 60ch; }
 
