@@ -1,0 +1,71 @@
+:root {
+  --bg: #0f1720;
+  --bg-2: #16222e;
+  --card: #1c2a38;
+  --card-hover: #233444;
+  --line: #2c3e4f;
+  --ink: #eaf2f8;
+  --muted: #9fb3c2;
+  --accent: #38c172;
+  --accent-2: #2f9e60;
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: radial-gradient(1200px 600px at 50% -10%, var(--bg-2), var(--bg));
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.wrap { width: min(960px, 92vw); margin: 0 auto; }
+
+.hub-header { padding: 3rem 0 1.5rem; text-align: center; }
+.hub-header h1 { margin: 0 0 0.5rem; font-size: 2.4rem; }
+.tagline { margin: 0 auto; max-width: 56ch; color: var(--muted); }
+
+main { padding: 1.5rem 0 3rem; }
+
+.quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.1rem;
+}
+
+.quiz-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.12s ease, border-color 0.12s, background 0.12s;
+}
+.quiz-card:hover { transform: translateY(-3px); border-color: var(--accent); background: var(--card-hover); }
+.quiz-card.disabled { opacity: 0.55; cursor: default; }
+.quiz-card.disabled:hover { transform: none; border-color: var(--line); background: var(--card); }
+
+.quiz-emoji { font-size: 2.2rem; }
+.quiz-title { margin: 0.5rem 0 0.4rem; font-size: 1.35rem; }
+.quiz-blurb { margin: 0 0 1rem; color: var(--muted); font-size: 0.95rem; flex: 1; }
+
+.quiz-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.tag { background: rgba(56, 193, 114, 0.14); color: var(--accent); font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 99px; }
+
+.quiz-cta { font-weight: 700; color: var(--accent); }
+.quiz-card.disabled .quiz-cta { color: var(--muted); }
+
+.empty { color: var(--muted); }
+
+.hub-footer { border-top: 1px solid var(--line); padding: 1.5rem 0 2.5rem; color: var(--muted); font-size: 0.85rem; text-align: center; }
+.hub-footer a { color: var(--accent); }
+
+@media (max-width: 520px) {
+  .hub-header h1 { font-size: 1.9rem; }
+}
