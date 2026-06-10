@@ -1,0 +1,10 @@
+{
+  "name": "golf-club-fitter",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Camera body-scanner that estimates close-enough golf club length. Static SPA; package.json only enables `node --test` for the pure fitting logic.",
+  "scripts": {
+    "test": "node --test scripts/"
+  }
+}

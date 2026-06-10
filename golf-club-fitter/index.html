@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golf Club Length Scanner — Body Scan Your Fit</title>
+  <meta name="description" content="Use your camera and in-browser pose detection to body-scan your wrist-to-floor measurement and get a close-enough golf club length recommendation." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="back-link" href="../">← All quizzes</a>
+      <h1>📏 Golf Club Length Scanner</h1>
+      <p class="tagline">Stand in front of your camera and we'll scan your body to estimate your
+        wrist-to-floor measurement — then recommend a close-enough club length, all in your browser.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- 1. Setup: height entry -->
+    <section id="setup-screen" class="card">
+      <h2 class="screen-title">Step 1 · Your height</h2>
+      <p class="screen-help">The scanner reads your body proportions from the camera, but it needs your
+        height to turn those proportions into real inches. Nothing is uploaded — detection runs entirely
+        on your device.</p>
+
+      <div class="unit-toggle" role="group" aria-label="Height units">
+        <button type="button" class="unit-btn is-active" data-unit="ft">ft / in</button>
+        <button type="button" class="unit-btn" data-unit="cm">cm</button>
+      </div>
+
+      <div id="height-ft" class="height-fields">
+        <label class="field">
+          <span>Feet</span>
+          <input id="feet" type="number" inputmode="numeric" min="3" max="8" step="1" placeholder="5" />
+        </label>
+        <label class="field">
+          <span>Inches</span>
+          <input id="inches" type="number" inputmode="numeric" min="0" max="11" step="1" placeholder="10" />
+        </label>
+      </div>
+
+      <div id="height-cm" class="height-fields hidden">
+        <label class="field">
+          <span>Centimetres</span>
+          <input id="cm" type="number" inputmode="numeric" min="90" max="250" step="1" placeholder="178" />
+        </label>
+      </div>
+
+      <p id="setup-error" class="form-error hidden"></p>
+
+      <div class="screen-actions">
+        <button id="start-scan-btn" class="btn btn-primary" type="button">Start camera scan →</button>
+      </div>
+
+      <button id="show-manual-btn" class="link-btn" type="button">No camera? Enter wrist-to-floor manually</button>
+
+      <div id="manual-panel" class="manual-panel hidden">
+        <p class="screen-help">Stand straight in shoes, arms relaxed at your sides, and measure from the
+          crease of your wrist straight down to the floor.</p>
+        <label class="field field-wide">
+          <span>Wrist-to-floor (inches)</span>
+          <input id="manual-wtf" type="number" inputmode="decimal" min="24" max="46" step="0.25" placeholder="34" />
+        </label>
+        <button id="manual-submit-btn" class="btn btn-primary" type="button">Use this measurement →</button>
+      </div>
+    </section>
+
+    <!-- 2. Scan: camera + pose overlay -->
+    <section id="scan-screen" class="card hidden">
+      <h2 class="screen-title">Step 2 · Body scan</h2>
+      <ul class="tips">
+        <li>Put your phone/laptop down and step back so your <strong>whole body</strong> is in frame.</li>
+        <li>Face the camera, stand up straight, feet flat.</li>
+        <li>Let your arms hang <strong>relaxed at your sides</strong> — don't hold them out.</li>
+      </ul>
+
+      <div class="stage">
+        <video id="video" playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div id="scan-status" class="scan-status">Starting camera…</div>
+        <div id="countdown" class="countdown hidden"></div>
+      </div>
+
+      <div class="scan-actions">
+        <button id="cancel-scan-btn" class="btn btn-ghost" type="button">← Back</button>
+        <button id="flip-cam-btn" class="btn btn-ghost" type="button">Flip camera</button>
+        <button id="capture-btn" class="btn btn-primary" type="button" disabled>Capture</button>
+      </div>
+      <p id="scan-error" class="form-error hidden"></p>
+    </section>
+
+    <!-- 3. Results -->
+    <section id="results-screen" class="card hidden">
+      <h2 class="results-title">Your recommended length</h2>
+      <div class="headline">
+        <div id="headline-delta" class="headline-delta">Standard</div>
+        <p id="headline-explain" class="headline-explain"></p>
+      </div>
+
+      <div class="measure-row">
+        <div class="measure">
+          <span class="measure-label">Wrist-to-floor</span>
+          <span id="measure-wtf" class="measure-value">—</span>
+        </div>
+        <div class="measure">
+          <span class="measure-label">Height</span>
+          <span id="measure-height" class="measure-value">—</span>
+        </div>
+        <div class="measure">
+          <span class="measure-label">Scan confidence</span>
+          <span id="measure-confidence" class="measure-value">—</span>
+        </div>
+      </div>
+
+      <h3 class="table-title">Estimated length for every club</h3>
+      <div class="table-wrap">
+        <table class="club-table">
+          <thead>
+            <tr><th>Club</th><th>Standard</th><th>Recommended</th></tr>
+          </thead>
+          <tbody id="club-table-body"></tbody>
+        </table>
+      </div>
+
+      <div class="results-actions">
+        <button id="restart-btn" class="btn btn-primary" type="button">Scan again</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>This is an <strong>approximate</strong> fitting for guidance only. Wrist-to-floor is estimated
+        from your camera using on-device pose detection and your stated height, then mapped through a
+        published static-fitting chart. Real club length also depends on posture, swing and ball position —
+        confirm with a proper fitting. See <a href="README.md">how it works</a>.</p>
+    </div>
+  </footer>
+
+  <!-- App logic (ES module; imports the pose model from a CDN and the pure
+       fitting logic from ./fitting.js). -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
