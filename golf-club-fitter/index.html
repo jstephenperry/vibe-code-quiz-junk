@@ -6,6 +6,31 @@
   <title>Golf Club Length Scanner — Body Scan Your Fit</title>
   <meta name="description" content="Use your camera and in-browser pose detection to body-scan your wrist-to-floor measurement and get a close-enough golf club length recommendation." />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Early error collector: records script load failures and runtime errors
+       so the boot guard at the bottom can say WHAT failed, not just that
+       something did. Must be the first script and use only ES5. -->
+  <script>
+    (function () {
+      var errs = (window.__bootErrors = []);
+      window.addEventListener(
+        "error",
+        function (e) {
+          if (e && e.target && (e.target.src || e.target.href)) {
+            errs.push("Failed to load: " + (e.target.src || e.target.href));
+          } else if (e && e.message) {
+            var src = e.filename ? e.filename.split("/").pop() + ":" + e.lineno : "";
+            errs.push(e.message + (src ? " @ " + src : ""));
+          }
+        },
+        true
+      );
+      window.addEventListener("unhandledrejection", function (e) {
+        var r = e && e.reason;
+        var msg = r && (r.message || r.name) ? (r.name ? r.name + ": " : "") + (r.message || "") : String(r);
+        errs.push("Unhandled rejection: " + msg);
+      });
+    })();
+  </script>
 </head>
 <body>
   <header class="site-header">
@@ -140,20 +165,22 @@
   </footer>
 
   <!-- App logic (ES module; imports the pure fitting logic from ./fitting.js
-       and lazily loads the pose model from a CDN when a scan starts). -->
-  <script type="module" src="app.js"></script>
+       and lazily loads the pose model from a CDN when a scan starts).
+       ?v=3 busts stale CDN/edge caches when this file changes. -->
+  <script type="module" src="app.js?v=3"></script>
   <!-- Boot guard: if app.js fails to load/run (old browser, JS error), the
-       buttons would be silently dead — surface that instead. -->
+       buttons would be silently dead — surface what failed instead. -->
   <script>
     window.addEventListener("load", function () {
       setTimeout(function () {
         if (window.__clubScannerBooted) return;
         var el = document.getElementById("setup-error");
-        if (el) {
-          el.classList.remove("hidden");
-          el.textContent =
-            "The app failed to start in this browser/tab. Try a regular (non-private) tab or another browser, or refresh.";
-        }
+        if (!el) return;
+        var detail = (window.__bootErrors || []).slice(0, 3).join(" • ");
+        el.classList.remove("hidden");
+        el.textContent =
+          "The app failed to start in this browser/tab." +
+          (detail ? " Details: " + detail : " (No error was reported — possibly a stale cache; try a refresh.)");
       }, 1500);
     });
   </script>
