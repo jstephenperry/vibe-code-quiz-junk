@@ -5,13 +5,12 @@
  * their entered height, and maps that to a recommended club length.
  *
  * All vision processing happens on-device; no frames leave the browser.
+ *
+ * The MediaPipe bundle is imported LAZILY (when a scan starts), never at the
+ * top level: if the CDN is blocked or unreachable, the rest of the app must
+ * keep working and show a useful error instead of dying before any event
+ * handlers attach.
  */
-import {
-  FilesetResolver,
-  PoseLandmarker,
-  DrawingUtils,
-} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.20/vision_bundle.mjs";
-
 import {
   heightToInches,
   estimateWristToFloor,
@@ -40,7 +39,21 @@ const LM = {
 
 const MODEL_URL =
   "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
-const WASM_URL = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.20/wasm";
+const VISION_CDN = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.20";
+const WASM_URL = `${VISION_CDN}/wasm`;
+
+/* Lazily import the MediaPipe Tasks Vision module, caching the promise so the
+ * download happens once. Failures are retryable (the cache is cleared). */
+let visionModulePromise = null;
+function loadVisionModule() {
+  if (!visionModulePromise) {
+    visionModulePromise = import(`${VISION_CDN}/vision_bundle.mjs`).catch((err) => {
+      visionModulePromise = null;
+      throw err;
+    });
+  }
+  return visionModulePromise;
+}
 
 /* ---- DOM ---- */
 const $ = (id) => document.getElementById(id);
@@ -62,6 +75,7 @@ const state = {
   heightInches: null,
   facingMode: "user",
   stream: null,
+  mp: null, // lazily loaded MediaPipe tasks-vision module
   poseLandmarker: null,
   rafId: null,
   lastVideoTime: -1,
@@ -158,22 +172,43 @@ async function startScan() {
   setStatus("Starting camera…");
   captureBtn.disabled = true;
 
+  // Fail fast, with a specific reason, before touching the camera.
+  if (!window.isSecureContext) {
+    onScanFailure("Camera access needs HTTPS (or localhost). Open this page over https://.");
+    return;
+  }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    onScanFailure("This browser/tab doesn't expose the camera API (some private/restricted modes block it).");
+    return;
+  }
+
   try {
     await startCamera();
   } catch (err) {
-    onScanFailure("Couldn't access the camera. Check permissions, or use manual entry.", err);
+    if (err && err.name === "NotAllowedError") {
+      onScanFailure(
+        "Camera permission was denied. In Safari, tap the “ᴀA” menu in the address bar → Website Settings → Camera → Allow, then retry.",
+        err
+      );
+    } else {
+      onScanFailure("Couldn't access the camera.", err);
+    }
     return;
   }
 
   try {
     setStatus("Loading scanner model…");
+    if (!state.mp) state.mp = await loadVisionModule();
     if (!state.poseLandmarker) state.poseLandmarker = await createPose();
   } catch (err) {
-    onScanFailure("Couldn't load the pose model (network?). Try again or use manual entry.", err);
+    onScanFailure(
+      "Couldn't load the pose model — a content blocker or network issue may be blocking the CDN.",
+      err
+    );
     return;
   }
 
-  state.drawingUtils = new DrawingUtils(overlay.getContext("2d"));
+  state.drawingUtils = new state.mp.DrawingUtils(overlay.getContext("2d"));
   state.lastVideoTime = -1;
   loop();
 }
@@ -183,7 +218,11 @@ function onScanFailure(msg, err) {
   stopCamera();
   setStatus("Scan unavailable");
   statusEl.classList.add("is-warn");
-  setError($("scan-error"), msg + " Tap “← Back”, then “Enter wrist-to-floor manually”.");
+  const detail = err ? ` [${err.name || "Error"}${err.message ? `: ${err.message}` : ""}]` : "";
+  setError(
+    $("scan-error"),
+    `${msg} Tap “← Back”, then “Enter wrist-to-floor manually”.${detail}`
+  );
 }
 
 async function startCamera() {
@@ -193,6 +232,11 @@ async function startCamera() {
     audio: false,
   });
   video.srcObject = state.stream;
+  // iOS Safari: must be set as properties too — the HTML attributes alone are
+  // not always honoured after srcObject changes, and autoplay of an unmuted or
+  // non-inline video is blocked.
+  video.muted = true;
+  video.playsInline = true;
   stage.classList.toggle("no-mirror", state.facingMode === "environment");
   await video.play();
   await new Promise((res) => {
@@ -213,6 +257,7 @@ function stopCamera() {
 }
 
 async function createPose() {
+  const { FilesetResolver, PoseLandmarker } = state.mp;
   const vision = await FilesetResolver.forVisionTasks(WASM_URL);
   const opts = (delegate) => ({
     baseOptions: { modelAssetPath: MODEL_URL, delegate },
@@ -255,7 +300,7 @@ function handleResult(result) {
   }
 
   // Draw skeleton.
-  state.drawingUtils.drawConnectors(landmarks, PoseLandmarker.POSE_CONNECTIONS, {
+  state.drawingUtils.drawConnectors(landmarks, state.mp.PoseLandmarker.POSE_CONNECTIONS, {
     color: "rgba(92,197,133,0.9)",
     lineWidth: 3,
   });
@@ -499,3 +544,4 @@ $("restart-btn").addEventListener("click", () => {
 
 initSetup();
 show("setup");
+window.__clubScannerBooted = true; // checked by the boot guard in index.html

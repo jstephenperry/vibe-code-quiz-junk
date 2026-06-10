@@ -77,7 +77,7 @@
       </ul>
 
       <div class="stage">
-        <video id="video" playsinline muted></video>
+        <video id="video" autoplay playsinline muted></video>
         <canvas id="overlay"></canvas>
         <div id="scan-status" class="scan-status">Starting camera…</div>
         <div id="countdown" class="countdown hidden"></div>
@@ -139,8 +139,23 @@
     </div>
   </footer>
 
-  <!-- App logic (ES module; imports the pose model from a CDN and the pure
-       fitting logic from ./fitting.js). -->
+  <!-- App logic (ES module; imports the pure fitting logic from ./fitting.js
+       and lazily loads the pose model from a CDN when a scan starts). -->
   <script type="module" src="app.js"></script>
+  <!-- Boot guard: if app.js fails to load/run (old browser, JS error), the
+       buttons would be silently dead — surface that instead. -->
+  <script>
+    window.addEventListener("load", function () {
+      setTimeout(function () {
+        if (window.__clubScannerBooted) return;
+        var el = document.getElementById("setup-error");
+        if (el) {
+          el.classList.remove("hidden");
+          el.textContent =
+            "The app failed to start in this browser/tab. Try a regular (non-private) tab or another browser, or refresh.";
+        }
+      }, 1500);
+    });
+  </script>
 </body>
 </html>
