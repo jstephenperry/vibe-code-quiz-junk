@@ -11,6 +11,7 @@ lists every quiz; each quiz is a self-contained SPA in its own folder.
 | Quiz | Folder | What it does |
 | --- | --- | --- |
 | ⛳ Golf Ball Fitter | [`golf-ball-fitter/`](golf-ball-fitter/) | Matches you to your ideal golf ball from 40 balls across 9 brands, based on the manufacturers' own stated ball characteristics. |
+| 📏 Golf Club Length Scanner | [`golf-club-fitter/`](golf-club-fitter/) | Uses your camera and on-device pose detection to estimate your wrist-to-floor measurement and recommend a close-enough club length for the whole bag. |
 
 ## Repo layout
 
